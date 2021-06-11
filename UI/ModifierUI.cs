@@ -52,29 +52,17 @@ namespace JDFixer.UI
             practiceEnabled = value;
         }
 
-
-        //#####################################################
-        // Jump Distance Refresh Button
-        // Yes, i tried everything make an autoupdating text tag lol
-        [UIComponent("jdbutton")]
-        private string jdbutton;
-        [UIValue("button-text")]
-        public string ButtonText
+        private float _currentJd = 0f;
+        public void UpdateJumpDistance(float value)
         {
-            get => "<#ebbd52>" + Config.UserConfig.selected_mapJumpDistance.ToString();
-            set
-            {
-                NotifyPropertyChanged();
-            }
+            _currentJd = value;
+            NotifyPropertyChanged(nameof(CurrentJDText));
         }
 
-        [UIAction("refresh")]
-        void Refresh()
-        {
-            ButtonText = "something changed"; // This is a hack. Without this the button text doesn't update when clicked lol
-            //Logger.log.Debug($"After click {ButtonText}");
-        }
-        //#####################################################
+        [UIValue("current-jd")]
+        public string CurrentJDText => "<#ebbd52>" + _currentJd.ToString();
+
+
 
 
         [UIComponent("jumpDisSlider")]
@@ -159,36 +147,5 @@ namespace JDFixer.UI
             return DeepestChildFlowCoordinator(flow);
         }
 
-        // For when user selects a map with only 1 difficulty or selects a map but does not click a difficulty
-        public static void Leveldetail_didChangeContentEvent(StandardLevelDetailViewController arg1, StandardLevelDetailViewController.ContentType arg2)
-        {
-            if (arg1 != null && arg1.selectedDifficultyBeatmap != null)
-            {               
-                float map_bpm = arg1.selectedDifficultyBeatmap.level.beatsPerMinute;
-                float map_njs = arg1.selectedDifficultyBeatmap.noteJumpMovementSpeed;
-                float map_halfjump = 4f;
-                float map_offset = arg1.selectedDifficultyBeatmap.noteJumpStartBeatOffset;
-
-                // NOTE THESE DONT WORK: SONG LOADS FOREVER
-                //float bpm = arg1.beatmapLevel.beatsPerMinute;
-                //float offset = arg1.beatmapLevel.songTimeOffset;
-                //String songname = arg1.beatmapLevel.songName;
-
-                //Calculate Original Jump Distance:
-                float map_num = 60f / map_bpm;
-                while (map_njs * map_num * map_halfjump > 18)
-                    map_halfjump /= 2;
-
-                map_halfjump += map_offset;
-                if (map_halfjump < 1) map_halfjump = 1f;
-                
-                float map_jumpdistance = map_njs * map_num * map_halfjump * 2;
-
-                Config.UserConfig.selected_mapJumpDistance = map_jumpdistance;
-                Config.Write();
-
-                //Logger.log.Debug($"UI: BPM: {map_bpm} | NJS: {map_njs} | Offset: {map_offset} | Jump Distance: { map_jumpdistance}");
-            }
-        }
     }
 }

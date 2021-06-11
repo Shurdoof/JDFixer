@@ -5,8 +5,8 @@
 			<grid cell-size-y='9' cell-size-x='28' spacing-x='2' align='Right'>
 				<text text='Map Jump Distance' align='Left'/>
 				<text text='-----------------' align='Left' rich-text='true' font-color='#00000000'/>
-				<button id='jdbutton' text='~button-text' on-click='refresh' min-width='29' align='Right' hover-hint='Refresh to show original JD for current map. Applicable in Multiplayer only when you are selecting the map.'/>
-			</grid>
+        <text text='~current-jd' align='Left'/>
+      </grid>
 		</horizontal>
 		<slider-setting id='jumpDisSlider' value ='jumpDisValue' on-change='setJumpDis' text='Desired Jump Distance' increment='0.1' min='~minJump' max='~maxJump' hover-hint='Will attempt run map at this JD or as close as possible'></slider-setting>
 		<checkbox-setting value='usePrefJumpValues' on-change='setUsePrefJumpValues' text='Use Preferred JD values'></checkbox-setting>
