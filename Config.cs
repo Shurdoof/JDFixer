@@ -126,7 +126,10 @@ namespace JDFixer
             }
             UserConfig.preferredValues = UserConfig.preferredValues.OrderByDescending(x => x.njs).ToList();
             //UserConfig.preferredValues = UserConfig.preferredValues.OrderByDescending(x => x.jumpDistance).ToList(); // Sort by JD Setpoint
-
+            if (UserConfig.rt_preferredValues == null)
+            {
+                UserConfig.rt_preferredValues = new List<RTPref>();
+            }
             UserConfig.rt_preferredValues = UserConfig.rt_preferredValues.OrderByDescending(x => x.njs).ToList();
         }
 
