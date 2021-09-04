@@ -1,5 +1,11 @@
 ﻿using HarmonyLib;
 using IPA;
+using Newtonsoft.Json;
+using SongCore;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 //using TournamentAssistant;
 
 namespace JDFixer
@@ -32,7 +38,7 @@ namespace JDFixer
 
             BeatSaberMarkupLanguage.GameplaySetup.GameplaySetup.instance.AddTab("JDFixer", "JDFixer.UI.BSML.modifierUI.bsml", UI.ModifierUI.instance);
             //BeatSaberMarkupLanguage.GameplaySetup.GameplaySetup.instance.AddTab("JDFixerOnline", "JDFixer.UI.BSML.modifierOnlineUI.bsml", UI.ModifierUI.instance, BeatSaberMarkupLanguage.GameplaySetup.MenuType.Online);
-            
+
 
             // Note: Fails here, too early
             //leveldetail = Resources.FindObjectsOfTypeAll<StandardLevelDetailViewController>().FirstOrDefault();
@@ -58,7 +64,6 @@ namespace JDFixer
         private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj)
         {
             //Logger.log.Debug(obj.scenes[0].sceneName);
-
 
             //-------------------------------------------------------------------------------------
             // Attempt to set display in TA to 0s to avoid misleading player lol
@@ -96,9 +101,9 @@ namespace JDFixer
         }
 
         // QOL: When in Campaigns, set Map JD and Reaction Time displays to show zeroes to prevent misleading player
-        private void Missionselection_didSelectMissionLevelEvent(MissionSelectionMapViewController arg1, MissionNode arg2)
+        private async void Missionselection_didSelectMissionLevelEvent(MissionSelectionMapViewController arg1, MissionNode arg2)
         {
-            BeatmapInfo.SetSelected(null);
+            BeatmapInfo.SetSelected(await arg2.GetDifficultyBeatMapAsync());
         }
 
 
