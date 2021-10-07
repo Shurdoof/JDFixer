@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using IPA.Config;
+using IPA.Config.Stores;
 //using TournamentAssistant;
 
 namespace JDFixer
@@ -19,22 +21,24 @@ namespace JDFixer
         //private static IPA.Loader.PluginMetadata hasTA;
 
         [Init]
-        public void Init(IPA.Logging.Logger logger)
+        public void Init(IPA.Logging.Logger logger, Config conf)
         {
             Logger.log = logger;
+            PluginConfig.Instance = conf.Generated<PluginConfig>();
         }
+
 
         [OnStart]
         public void OnApplicationStart()
         {
-            Config.Read();
+            //Config.Read();
 
             harmony = new Harmony("com.zephyr.BeatSaber.JDFixer");
             harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
 
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
             BS_Utils.Utilities.BSEvents.difficultySelected += BSEvents_difficultySelected;
-            UnityEngine.SceneManagement.SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+            //UnityEngine.SceneManagement.SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
 
             BeatSaberMarkupLanguage.GameplaySetup.GameplaySetup.instance.AddTab("JDFixer", "JDFixer.UI.BSML.modifierUI.bsml", UI.ModifierUI.instance);
             //BeatSaberMarkupLanguage.GameplaySetup.GameplaySetup.instance.AddTab("JDFixerOnline", "JDFixer.UI.BSML.modifierOnlineUI.bsml", UI.ModifierUI.instance, BeatSaberMarkupLanguage.GameplaySetup.MenuType.Online);
@@ -53,12 +57,12 @@ namespace JDFixer
             //-------------------------------------------------------------------------------------
         }
 
-        private void SceneManager_activeSceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
+        /*private void SceneManager_activeSceneChanged(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.Scene arg1)
         {
-            Config.Write();
+            //Config.Write();
 
             //Logger.log.Debug("Prev: " + arg0.name + " Next: " + arg1.name);
-        }
+        }*/
 
         // For when user selects a map with only 1 difficulty or selects a map but does not click a difficulty
         private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj)
@@ -132,11 +136,15 @@ namespace JDFixer
         [OnExit]
         public void OnApplicationQuit()
         {
-            Config.Write();
+            //Config.Write();
 
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh -= BSEvents_lateMenuSceneLoadedFresh;
             BS_Utils.Utilities.BSEvents.difficultySelected -= BSEvents_difficultySelected;
-            UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
+            //UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
+
+            leveldetail.didChangeContentEvent -= Leveldetail_didChangeContentEvent;
+            missionselection.didSelectMissionLevelEvent -= Missionselection_didSelectMissionLevelEvent;
+
             harmony.UnpatchAll("com.zephyr.BeatSaber.JDFixer");
         }
     }

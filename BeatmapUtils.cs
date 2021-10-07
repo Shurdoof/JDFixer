@@ -26,7 +26,8 @@ namespace JDFixer
                 halfjump /= 2;
 
             halfjump += offset;
-            if (halfjump < 1) halfjump = 1f;
+            if (halfjump < 0.25)
+                halfjump = 0.25f;
 
             jumpdistance = njs * num * halfjump * 2;
 

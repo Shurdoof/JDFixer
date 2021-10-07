@@ -39,10 +39,11 @@
     </horizontal>
 
     <horizontal>
-      <text text='Instructions at github.com/zeph-yr/JDFixer#readme     v2.1.0' font-color='#ff0080ff' font-size='3' align='Center' hover-hint="You'll wanna read this, trust me."></text>
-    </horizontal>
-
+		  <text text='Instructions at github.com/zeph-yr/JDFixer#readme     v2.1.6' font-color='#ff0080ff' font-size='3' align='Center' hover-hint="You'll wanna read this, trust me."></text>	  
+	  </horizontal>
+    
     <checkbox-setting value='disableForNoodleMaps' apply-on-change='true' text='Disable for Noodle maps' hover-hint="Do not override JD for maps that use Noodle Extensions"></checkbox-setting>
+
 
   </settings-container>
 
