@@ -13,6 +13,13 @@ namespace JDFixer
                 || BS_Utils.Plugin.LevelData.Mode == BS_Utils.Gameplay.Mode.Multiplayer
                 || BS_Utils.Plugin.LevelData.Mode == BS_Utils.Gameplay.Mode.Mission);
 
+
+            if (Config.UserConfig.disableForNoodleMaps && BeatmapUtils.IsNoodleMap(BS_Utils.Plugin.LevelData.GameplayCoreSceneSetupData.difficultyBeatmap))
+            {
+                Logger.log.Debug("Disabling JD fixing for noodle map");
+                WillOverride = false;
+            }
+
             //BS_Utils.Utilities.LevelType.Tutorial
             //BS_Utils.Plugin.LevelData.GameplayCoreSceneSetupData.practiceSettings != null
 

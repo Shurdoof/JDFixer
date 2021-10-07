@@ -82,6 +82,19 @@ namespace JDFixer.UI
         [UIValue("mapMinJD")]
         public string MapMinJDText => "<#8c8c8c>" + _selectedBeatmap.MinJumpDistance.ToString();
 
+        [UIValue("disableForNoodleMaps")]
+        public bool DisableForNoodleMaps
+        {
+            get
+            {
+                return Config.UserConfig.disableForNoodleMaps;
+            }
+            set
+            {
+                Config.UserConfig.disableForNoodleMaps = value;
+            }
+        }
+
         [UIComponent("jumpDisSlider")]
         private SliderSetting jumpDisSlider;
         [UIValue("jumpDisValue")]
