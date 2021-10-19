@@ -36,6 +36,13 @@ namespace JDFixer
 
         public static bool IsNoodleMap(IDifficultyBeatmap diff)
         {
+            var diffData = SongCore.Collections.RetrieveDifficultyData(diff);
+
+            if (diffData?.additionalDifficultyData?._requirements == null)
+            {
+                return false;
+            }
+
             return SongCore.Collections.RetrieveDifficultyData(diff).additionalDifficultyData._requirements.Contains("Noodle Extensions");
         }
 
